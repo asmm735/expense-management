@@ -15,6 +15,8 @@ import ManagerDashboard from './pages/Manager/Dashboard';
 import TeamAnalytics from './pages/Manager/TeamAnalytics';
 import BulkApproval from './pages/Manager/BulkApproval';
 import EmployeeDashboard from './pages/Employee/Dashboard';
+import SubmitExpense from './pages/Employee/SubmitExpense';
+import ExpenseDetails from './pages/Employee/ExpenseDetails';
 import './styles/globals.css';
 
 // Create a client
@@ -111,6 +113,22 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
                     <EmployeeDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/employee/submit-expense" 
+                element={
+                  <ProtectedRoute allowedRoles={['employee']}>
+                    <SubmitExpense />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/employee/expense/:id" 
+                element={
+                  <ProtectedRoute allowedRoles={['employee']}>
+                    <ExpenseDetails />
                   </ProtectedRoute>
                 } 
               />
