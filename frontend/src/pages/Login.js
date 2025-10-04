@@ -24,14 +24,20 @@ const Login = () => {
       login(data.user, data.access_token);
       toast.success('Welcome back!');
       
-      // Redirect based on role
-      const role = data.user.role.toLowerCase();
-      if (role === 'admin') {
+      // If no role is assigned yet or user is new, redirect to admin dashboard
+      if (!data.user.role) {
         navigate('/admin/dashboard');
-      } else if (['cfo', 'director', 'manager', 'financer'].includes(role)) {
+        return;
+      }
+      
+      // Check role only if it exists
+      const role = data.user.role.toLowerCase();
+      if (role === 'employee') {
+        navigate('/employee/dashboard');
+      } else if (['manager', 'cfo', 'director', 'financer'].includes(role)) {
         navigate('/manager/dashboard');
       } else {
-        navigate('/employee/dashboard');
+        navigate('/admin/dashboard');
       }
     },
     onError: (error) => {
