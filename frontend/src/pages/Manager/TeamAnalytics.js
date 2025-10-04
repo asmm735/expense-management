@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
+import { useAuth } from "../../context/AuthContext";
 import {
   CheckCircle,
   XCircle,
@@ -12,11 +14,14 @@ import {
   Download,
   Eye,
   TrendingUp,
-  PieChart
+  PieChart,
+  LogOut
 } from "lucide-react";
 import { getTeamExpenses, getManagerStats } from "../../api/manager";
 
 export default function TeamAnalytics() {
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [employeeFilter, setEmployeeFilter] = useState("all");
@@ -81,6 +86,12 @@ export default function TeamAnalytics() {
     rejectedAmount: filteredExpenses.filter(e => e.status === 'rejected').reduce((sum, e) => sum + parseFloat(e.convertedAmount || 0), 0),
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    toast.success('Logged out successfully');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
@@ -97,10 +108,19 @@ export default function TeamAnalytics() {
             Comprehensive view of team expense patterns and approval statistics
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">
-          <Download className="h-5 w-5" />
-          Export Report
-        </button>
+        <div className="flex items-center gap-3">
+          <button className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">
+            <Download className="h-5 w-5" />
+            Export Report
+          </button>
+          <button
+            onClick={handleLogout}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Analytics Cards */}

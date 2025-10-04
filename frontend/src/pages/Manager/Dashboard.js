@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
+import { useAuth } from "../../context/AuthContext";
 import {
   Clock,
   CheckCircle,
@@ -11,7 +12,8 @@ import {
   Eye,
   MessageCircle,
   TrendingUp,
-  FileText
+  FileText,
+  LogOut
 } from "lucide-react";
 import {
   getManagerStats,
@@ -23,6 +25,8 @@ import {
 
 export default function ManagerDashboard() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [actionType, setActionType] = useState(null); // 'approve' or 'reject'
   const [comment, setComment] = useState("");
@@ -76,6 +80,12 @@ export default function ManagerDashboard() {
     },
   });
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    toast.success('Logged out successfully');
+  };
+
   const handleOpenModal = (expense, action) => {
     setSelectedExpense(expense);
     setActionType(action);
@@ -104,11 +114,20 @@ export default function ManagerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manager Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Approve/reject expenses, view team expenses, and manage approvals
-        </p>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Manager Dashboard</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Welcome back, {user?.name}! Approve/reject expenses, view team expenses, and manage approvals
+          </p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+        >
+          <LogOut className="h-4 w-4 mr-2" />
+          Logout
+        </button>
       </div>
 
       {/* Stats Grid */}

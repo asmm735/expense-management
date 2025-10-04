@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
+import { useAuth } from "../../context/AuthContext";
 import {
   CheckCircle,
   XCircle,
@@ -12,7 +13,8 @@ import {
   Check,
   X,
   SelectAll,
-  MessageCircle
+  MessageCircle,
+  LogOut
 } from "lucide-react";
 import {
   getPendingApprovalsForManager,
@@ -23,6 +25,8 @@ import {
 
 export default function BulkApproval() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
   const [selectedExpenses, setSelectedExpenses] = useState([]);
   const [bulkAction, setBulkAction] = useState("");
   const [bulkComment, setBulkComment] = useState("");
@@ -84,6 +88,12 @@ export default function BulkApproval() {
       console.error('Bulk reject error:', error);
     },
   });
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    toast.success('Logged out successfully');
+  };
 
   // Handle individual checkbox
   const handleSelectExpense = (expenseId) => {
@@ -152,6 +162,13 @@ export default function BulkApproval() {
             Select multiple expenses to approve or reject in bulk
           </p>
         </div>
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+        >
+          <LogOut className="h-4 w-4 mr-2" />
+          Logout
+        </button>
       </div>
 
       {/* Selection Summary */}
