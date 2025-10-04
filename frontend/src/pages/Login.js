@@ -23,7 +23,16 @@ const Login = () => {
     onSuccess: (data) => {
       login(data.user, data.access_token);
       toast.success('Welcome back!');
-      navigate('/dashboard');
+      
+      // Redirect based on role
+      const role = data.user.role.toLowerCase();
+      if (role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (['cfo', 'director', 'manager', 'financer'].includes(role)) {
+        navigate('/manager/dashboard');
+      } else {
+        navigate('/employee/dashboard');
+      }
     },
     onError: (error) => {
       const message = error.response?.data?.detail || 'Login failed. Please try again.';

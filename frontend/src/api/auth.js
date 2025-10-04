@@ -12,15 +12,36 @@ export const authAPI = {
       console.warn('Using mock login data');
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
       
+      // Determine role based on email for testing
+      let role = 'employee';
+      let isApprover = false;
+      
+      if (credentials.email.includes('admin')) {
+        role = 'admin';
+        isApprover = true;
+      } else if (credentials.email.includes('cfo')) {
+        role = 'cfo';
+        isApprover = true;
+      } else if (credentials.email.includes('director')) {
+        role = 'director';
+        isApprover = true;
+      } else if (credentials.email.includes('manager')) {
+        role = 'manager';
+        isApprover = true;
+      } else if (credentials.email.includes('financer')) {
+        role = 'financer';
+        isApprover = true;
+      }
+      
       // Accept any credentials for demo purposes
       return {
         access_token: 'mock-jwt-token-' + Date.now(),
         user: {
-          id: 1,
-          name: 'Admin User',
+          id: Date.now(),
+          name: credentials.email.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase()),
           email: credentials.email,
-          role: 'admin',
-          isApprover: true,
+          role: role,
+          isApprover: isApprover,
         }
       };
     }
