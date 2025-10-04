@@ -122,7 +122,10 @@ export default function UserManagement() {
           >
             <option value="all">All Roles</option>
             <option value="admin">Admin</option>
+            <option value="cfo">CFO</option>
+            <option value="director">Director</option>
             <option value="manager">Manager</option>
+            <option value="financer">Financer</option>
             <option value="employee">Employee</option>
           </select>
         </div>
@@ -241,8 +244,11 @@ export default function UserManagement() {
 
 function RoleBadge({ role }) {
   const styles = {
-    admin: "bg-emerald-100 text-emerald-800",
+    admin: "bg-red-100 text-red-800",
+    cfo: "bg-purple-100 text-purple-800", 
+    director: "bg-blue-100 text-blue-800",
     manager: "bg-emerald-100 text-emerald-800",
+    financer: "bg-yellow-100 text-yellow-800",
     employee: "bg-gray-100 text-gray-800",
   };
 
@@ -276,7 +282,9 @@ function UserModal({ user, onClose, onSave, allUsers }) {
     onSave(submitData);
   };
 
-  const managers = allUsers?.filter((u) => u.role === "manager") || [];
+  const managers = allUsers?.filter((u) => 
+    ['admin', 'cfo', 'director', 'manager', 'financer'].includes(u.role)
+  ) || [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -331,6 +339,9 @@ function UserModal({ user, onClose, onSave, allUsers }) {
             >
               <option value="employee">Employee</option>
               <option value="manager">Manager</option>
+              <option value="financer">Financer</option>
+              <option value="director">Director</option>
+              <option value="cfo">CFO</option>
               <option value="admin">Admin</option>
             </select>
           </div>
@@ -350,14 +361,14 @@ function UserModal({ user, onClose, onSave, allUsers }) {
                 <option value="">No Manager</option>
                 {managers.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {m.name}
+                    {m.name} ({m.role})
                   </option>
                 ))}
               </select>
             </div>
           )}
 
-          {formData.role === "manager" && (
+          {['admin', 'cfo', 'director', 'manager', 'financer'].includes(formData.role) && (
             <div className="flex items-center">
               <input
                 type="checkbox"
