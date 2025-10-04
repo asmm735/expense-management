@@ -10,6 +10,7 @@ import {
   CheckCircle,
   XCircle,
 } from "lucide-react";
+import AdminLayout from "../../components/AdminLayout";
 
 // API functions (implement in src/api/admin.js)
 import {
@@ -42,14 +43,15 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Comprehensive overview of expense management system
-        </p>
-      </div>
+    <AdminLayout>
+      <div className="p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Comprehensive overview of expense management system
+          </p>
+        </div>
 
       {/* Stats Grid */}
       <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -271,7 +273,8 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </AdminLayout>
   );
 }
 

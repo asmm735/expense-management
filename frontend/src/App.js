@@ -6,6 +6,10 @@ import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/Admin/Dashboard';
+import UserManagement from './pages/Admin/UserManagement';
+import ApprovalRules from './pages/Admin/ApprovalRules';
+import CompanySettings from './pages/Admin/CompanySettings';
+import ExpensesOverview from './pages/Admin/ExpensesOverview';
 import './styles/globals.css';
 
 // Create a client
@@ -28,6 +32,10 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<UserManagement />} />
+              <Route path="/admin/approval-rules" element={<ApprovalRules />} />
+              <Route path="/admin/company-settings" element={<CompanySettings />} />
+              <Route path="/admin/expenses-overview" element={<ExpensesOverview />} />
               <Route path="/dashboard" element={<AdminDashboard />} />
               <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
