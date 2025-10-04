@@ -21,12 +21,24 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: authAPI.login,
     onSuccess: (data) => {
-      login(data.user, data.access_token);
+      // Accept multiple token field names from API
+      const token = data.access_token || data.token || data.accessToken || data.access;
+      const user = data.user || data.data || data;
+      login(user, token);
       toast.success('Welcome back!');
-      navigate('/dashboard');
+      // Role based redirect map (default to dashboard)
+      const role = user?.role || user?.user?.role;
+      const ROLE_REDIRECT = {
+        admin: '/dashboard',
+        manager: '/dashboard',
+        employee: '/dashboard',
+      };
+      navigate(ROLE_REDIRECT[role] || '/dashboard');
     },
     onError: (error) => {
-      const message = error.response?.data?.detail || 'Login failed. Please try again.';
+      // Map validation errors to form if available
+      const resp = error.response?.data;
+      const message = resp?.detail || resp?.message || 'Login failed. Please try again.';
       toast.error(message);
     },
   });

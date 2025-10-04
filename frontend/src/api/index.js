@@ -14,6 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
+    console.debug('API request', config.method, config.url, 'token present?', !!token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -33,8 +34,12 @@ api.interceptors.response.use(
       localStorage.removeItem('user');
       window.location.href = '/login';
     }
+    console.error('API response error', error?.response?.status, error?.response?.data || error?.message);
     return Promise.reject(error);
   }
 );
+
+// Helper for debugging
+export const getAuthToken = () => localStorage.getItem('token');
 
 export default api;

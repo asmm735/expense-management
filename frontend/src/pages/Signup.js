@@ -42,12 +42,17 @@ const Signup = () => {
   const signupMutation = useMutation({
     mutationFn: authAPI.signup,
     onSuccess: (data) => {
-      login(data.user, data.access_token);
+      const token = data.access_token || data.token || data.accessToken;
+      const user = data.user || data.data || data;
+      login(user, token);
       toast.success('Account created successfully! Welcome aboard!');
+      const role = user?.role || user?.user?.role;
       navigate('/dashboard');
     },
     onError: (error) => {
-      const message = error.response?.data?.detail || 'Signup failed. Please try again.';
+      const resp = error.response?.data;
+      // If server provides field-specific errors, map them
+      const message = resp?.detail || resp?.message || 'Signup failed. Please try again.';
       toast.error(message);
     },
   });

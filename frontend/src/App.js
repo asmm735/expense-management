@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import PrivateRoute from './routes/PrivateRoute';
 import './styles/globals.css';
 
 // Create a client
@@ -26,7 +28,15 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Routes>
             <Toaster 
               position="top-right"
