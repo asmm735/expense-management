@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminDashboard from './pages/Admin/Dashboard';
 import './styles/globals.css';
 
 // Create a client
@@ -26,6 +27,8 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/dashboard" element={<AdminDashboard />} />
               <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
             <Toaster 
