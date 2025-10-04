@@ -83,7 +83,7 @@ export default function ManagerDashboard() {
   const handleLogout = () => {
     logout();
     navigate('/');
-    toast.success('Logged out successfully');
+    toast.success('Signed out successfully');
   };
 
   const handleOpenModal = (expense, action) => {
@@ -126,7 +126,7 @@ export default function ManagerDashboard() {
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
         >
           <LogOut className="h-4 w-4 mr-2" />
-          Logout
+          Sign Out
         </button>
       </div>
 
